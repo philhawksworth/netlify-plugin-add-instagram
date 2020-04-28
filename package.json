@@ -1,0 +1,26 @@
+{
+  "name": "netlify-plugin-add-instagram",
+  "version": "0.1.0",
+  "description": "A Netlify plugin to fetch and cache instagram data and images",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philhawksworth/netlify-plugin-add-instagram"
+  },
+  "keywords": [
+    "netlify",
+    "instagram",
+    "feed",
+    "data",
+    "cache",
+    "plugin",
+    "jamstack"
+  ],
+  "author": "Phil Hawksworth",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0"
+  }
+}
