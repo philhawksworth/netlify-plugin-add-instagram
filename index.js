@@ -1,20 +1,12 @@
 const fs      = require('fs');
 const fetch   = require('node-fetch');
 const chalk   = require('chalk');
-const request = require('request');
 
 // Get any environment variables we need
 require('dotenv').config();
 const {
   INSTAGRAM_AUTH,
   BRANCH } = process.env;
-
-
-const download = function(uri, filename, callback){
-  request.head(uri, function(err, res, body){
-    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-  });
-};
 
 
 module.exports = {
@@ -63,7 +55,7 @@ module.exports = {
         sourceImageURL,
         caption } = instagramData[image];
 
-      console.log('image :>> ', caption);
+      console.log('Instagram image:', caption);
       // if the image exists in the cache, recover it.
       if ( await utils.cache.has(localImageURL) ) {
         await utils.cache.restore(localImageURL);
@@ -71,10 +63,12 @@ module.exports = {
       } else {
         // if the image is not cached, fetch and cache it.
         console.log('Requesting image:', chalk.yellow(sourceImageURL));
-        await download(sourceImageURL, localImageURL, async function(){
-          console.log("Saved:", localImageURL);
-          await utils.cache.save(localImageURL);
-        });
+        await fetch(sourceImageURL)
+          .then(res => {
+              const dest = fs.createWriteStream(localImageURL);
+              console.log("Saved:", localImageURL );
+              res.body.pipe(dest);
+          });
 
       }
     }
