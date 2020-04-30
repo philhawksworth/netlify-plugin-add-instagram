@@ -70,6 +70,7 @@ module.exports = {
         console.log('Restored from cache:', chalk.green(localImageURL));
       } else {
         // if the image is not cached, fetch and cache it.
+        console.log('Requesting image:', chalk.yellow(sourceImageURL));
         await download(sourceImageURL, localImageURL, async function(){
           console.log("Saved:", localImageURL);
           await utils.cache.save(localImageURL);
