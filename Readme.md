@@ -38,7 +38,7 @@ This plugin will fetch the specified instagram feed and the latest 12 images and
 ```toml
 # Config for the Netlify Build Plugin: netlify-plugin-add-instagram
 [[plugins]]
-  package = "../netlify-plugin-add-instagram"
+  package = "netlify-plugin-add-instagram"
 
   [plugins.inputs]
 
