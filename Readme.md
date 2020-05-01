@@ -33,7 +33,7 @@ npm i --s netlify-plugin-add-instagram
 
 ### 2. Add the plugin and its options to your netlify.toml
 
-This plugin will fetch the specified feed and images and stash them prior to the execution of the `build` command you have specified in your Netlify configuration. The desired feeds can be specified in the `netlify.toml` config file.
+This plugin will fetch the specified instagram feed and the latest 12 images and stash them prior to the execution of the `build` command you have specified in your Netlify configuration. The desired Instagram username and various caching attributes can be specified in the `netlify.toml` config file as shown below.
 
 ```toml
 # Config for the Netlify Build Plugin: netlify-plugin-add-instagram
@@ -55,16 +55,17 @@ This plugin will fetch the specified feed and images and stash them prior to the
     imageTTL = 1209600   # 2 weeks
 
     # Which of Instagram's image sizes should we fetch?
-    # [thumbnail | low_resolution | standard_resolution]
-    imageSize = "thumbnail"
+    # t (thumbnail)
+    # m (medium)
+    # l (large)
+    imageSize = "m"
+
+    # Instagram username
+    username = "philhawksworth"
 ```
 
-### 3. Obtain and Instagram Key
 
-To make requests to the Instagram API, you will need to create an API key and then set it as an environment variable called `INSTAGRAM_AUTH`. You can add environment variables via your sites [Netlify Admin](https://app.netlify.com) in the Build and Deploy settings. For local development, you can use a [`.env` file](https://github.com/philhawksworth/demo-netlify-plugin-add-instagram/blob/master/.env-sample).
-
-
-### 4. Enable Build plugins on your site
+### 3. Enable Build plugins on your site
 
 Visit the Build Plugins page in the Netlify Admin to enable build plugins on your site.
 

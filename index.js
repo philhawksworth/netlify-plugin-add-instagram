@@ -2,16 +2,12 @@ const fs      = require('fs');
 const fetch   = require('node-fetch');
 const chalk   = require('chalk');
 
-// Get any environment variables we need
-require('dotenv').config();
-const { INSTAGRAM_AUTH } = process.env;
-
 
 module.exports = {
 
   async onPreBuild({ inputs, utils }) {
 
-    const instagramFeedUrl = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${INSTAGRAM_AUTH}`;
+    const instagramGraphUrl = `https://www.instagram.com/${inputs.username}/?__a=1`;
 
     // Where fetched data should reside in the buid
     const dataFile = inputs.dataFile;
@@ -26,20 +22,18 @@ module.exports = {
     // Or if it's not cached, let's fetch it and cache it.
     else {
 
-      const data = await fetch(instagramFeedUrl)
+      const data = await fetch(instagramGraphUrl)
         .then(res => res.json());
 
-      console.log('data :>> ', data.data[0].images);
-
       instagramData = [];
-      for (const image of data.data) {
-        let localImageURL = `${inputs.imageFolder}/${image.id}.jpeg`;
+      for (const image of data.graphql.user.edge_owner_to_timeline_media.edges) {
+        let localImageURL = `${inputs.imageFolder}/${image.node.shortcode}.jpeg`;
         instagramData.push({
-          "id": image.id,
-          "time": image.created_time,
-          "caption": image.caption.text,
-          "instagramURL": image.link,
-          "sourceImageURL": image.images[inputs.imageSize].url,
+          "id": image.node.shortcode,
+          "time": image.node.taken_at_timestamp,
+          "caption": image.node.edge_media_to_caption.edges[0].node.text,
+          "instagramURL": `https://www.instagram.com/p/${image.node.shortcode}`,
+          "sourceImageURL": `https://www.instagram.com/p/${image.node.shortcode}/media/?size=${inputs.imageSize}`,
           "localImageURL": localImageURL
         })
       }

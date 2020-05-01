@@ -1,7 +1,7 @@
 {
   "name": "netlify-plugin-add-instagram",
-  "version": "0.1.3",
-  "description": "A Netlify plugin to fetch and cache instagram data and images",
+  "version": "0.2.0",
+  "description": "A Netlify plugin to fetch and cache recent Instagram data and images",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -20,7 +20,6 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.0.0",
-    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0"
   }
 }

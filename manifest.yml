@@ -9,4 +9,6 @@ inputs:
   - name: imageTTL
     default: 1209600
   - name: imageSize
-    default: "thumbnail"
+    default: "m"
+  - name: username
+    required: true
