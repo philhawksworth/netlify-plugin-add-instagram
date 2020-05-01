@@ -1,19 +1,19 @@
 # Netlify Plugin - Add Instagram
 
-This [plugin](https://www.netlify.com/build/plugins-beta?utm_source=github&utm_medium=plugin-addinstagram-pnh&utm_campaign=devex) adds the ability to source fetch and cache recent Instagram images so that they can be served from as part of the site from the same domain, rather than serving directly from Facebook's Instagram CDN.
+This [plugin](https://www.netlify.com/build/plugins-beta?utm_source=github&utm_medium=plugin-addinstagram-pnh&utm_campaign=devex) adds the ability to source fetch and cache recent Instagram images so that they can be served as part of the site from the same domain, rather than serving directly from Facebook's Instagram CDN.
 
-Some browsers settings and extensions throttle or block serving assets from Facebook's CDN for privacy reasons. Also, serivng these assets directly from the same CDN and domain as the rest of the site should give a small perforamnce benefit too.
+Some browser settings and extensions throttle or block serving assets from Facebook's CDN for privacy reasons. Serving these assets directly from the same CDN and domain as the rest of the site should give a small performance benefit too.
 
 ## Overview
 
-This plugin requests data from INstagram feed that you associated with an Instagram Key that you will need to provide as an environment variable. It will save this data as JSON in the Netlify build cache and only re-request each feed after a specified time-to-live value has elapsed. It will also save all the image assets in the Netlify Build cache between builds and place them in the specified location for your static site generator to use.
+This plugin requests data from Instagram feed that you associated with an Instagram Key that you will need to provide as an environment variable. It will save this data as JSON in the Netlify build cache and only re-request the feed after a specified time-to-live value has elapsed. It will also save all the image assets in the Netlify Build cache between builds and place them in the specified location for your static site generator to use.
 
-Configure this plugin to present the gathered data in the appropriate location, so your chosen [static site generator](https://www.netlify.com/blog/2020/04/14/what-is-a-static-site-generator-and-3-ways-to-find-the-best-one/?utm_source=github&utm_medium=whatisanssg-pnh&utm_campaign=devex) can leverage it during the build.
+Configure this plugin to present the gathered data and images in the appropriate location, so your chosen [static site generator](https://www.netlify.com/blog/2020/04/14/what-is-a-static-site-generator-and-3-ways-to-find-the-best-one/?utm_source=github&utm_medium=plugin-addinstagram-pnh&utm_campaign=devex) can leverage it during the build.
 
 
 ## Demonstration
 
-See this plugin being used in this simplified demo site: https://demo-plugin-add-instagram.netlify.app/
+See this plugin being used in this simplified demo site: https://demo-netlify-plugin-add-instagram.netlify.app/
 
 
 ## Installation
@@ -48,18 +48,30 @@ This plugin will fetch the specified feed and images and stash them prior to the
     # Also stash data about the images in a json file
     dataFile = "src/_data/instagram.json"
 
-    # how many seconds should we cache the instagram feed for?
-    ttl = 60
+    # How many seconds should we cache the instagram feed for?
+    feedTTL = 30
+
+    # How many seconds should we cache each instagram image for?
+    imageTTL = 1209600   # 2 weeks
+
+    # Which of Instagram's image sizes should we fetch?
+    # [thumbnail | low_resolution | standard_resolution]
+    imageSize = "thumbnail"
 ```
 
-### Enable Build plugins on your site
+### 3. Obtain and Instagram Key
+
+To make requests to the Instagram API, you will need to create an API key and then set it as an environment variable called `INSTAGRAM_AUTH`. You can add environment variables via your sites [Netlify Admin](https://app.netlify.com) in the Build and Deploy settings. For local development, you can use a [`.env` file](https://github.com/philhawksworth/demo-netlify-plugin-add-instagram/blob/master/.env-sample).
+
+
+### 4. Enable Build plugins on your site
 
 Visit the Build Plugins page in the Netlify Admin to enable build plugins on your site.
 
 
 ## Quick try-out
 
-You can try out this plugin by deploying [a simple site](https://demo-plugin-add-instagram.netlify.app/) which uses it.
+You can try out this plugin by deploying [a simple site](https://demo-netlify-plugin-add-instagram.netlify.app/) which uses it.
 
 Clicking the button below will clone [a test site repo](https://github.com/philhawksworth/demo-netlify-plugin-add-instagram), setup a new site [on Netlify](https://netlify.com?utm_source=github&utm_medium=plugin-addinstagram-pnh&utm_campaign=devex) and deploy the site complete with the plugin configured and operational.
 

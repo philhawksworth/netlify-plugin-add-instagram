@@ -4,5 +4,9 @@ inputs:
     required: true
   - name: dataFile
     required: true
-  - name: ttl
+  - name: feedTTL
     default: 180
+  - name: imageTTL
+    default: 1209600
+  - name: imageSize
+    default: "thumbnail"
