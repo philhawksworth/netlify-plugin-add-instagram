@@ -27,7 +27,7 @@ module.exports = {
 
       instagramData = [];
       for (const image of data.graphql.user.edge_owner_to_timeline_media.edges) {
-        let localImageURL = `${inputs.imageFolder}/${image.node.shortcode}.jpeg`;
+        let localImageURL = `${inputs.imageFolder}/${image.node.shortcode}_${inputs.imageSize}.jpeg`;
         instagramData.push({
           "id": image.node.shortcode,
           "time": image.node.taken_at_timestamp,
