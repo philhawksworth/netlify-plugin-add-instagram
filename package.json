@@ -1,6 +1,6 @@
 {
   "name": "netlify-plugin-add-instagram",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A Netlify plugin to fetch and cache instagram data and images",
   "main": "index.js",
   "repository": {
