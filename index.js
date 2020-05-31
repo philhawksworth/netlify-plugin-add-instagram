@@ -31,7 +31,7 @@ module.exports = {
         instagramData.push({
           "id": image.node.shortcode,
           "time": image.node.taken_at_timestamp,
-          "caption": image.node.edge_media_to_caption.edges[0].node.text,
+          "caption": image.node.edge_media_to_caption.edges[0] ? image.node.edge_media_to_caption.edges[0].node.text : '',
           "instagramURL": `https://www.instagram.com/p/${image.node.shortcode}`,
           "sourceImageURL": `https://www.instagram.com/p/${image.node.shortcode}/media/?size=${inputs.imageSize}`,
           "localImageURL": localImageURL
