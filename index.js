@@ -23,7 +23,20 @@ module.exports = {
     else {
 
       const data = await fetch(instagramGraphUrl)
-        .then(res => res.json());
+        .then(res => {
+          // ensure that we are only acting on JSON responses
+          if(res.headers.get('content-type').includes('application/json')){
+            return res.json();
+          } else {
+            return null;
+          }
+        });
+
+      // If we didn't receive JSON, fail the plugin but not the build
+      if(!data){
+        utils.build.failPlugin('The Instagram feed did not return JSON data.\nProceeding with the build without the data from the plugin.')
+        return;
+      }
 
       instagramData = [];
       for (const image of data.graphql.user.edge_owner_to_timeline_media.edges) {

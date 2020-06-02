@@ -65,6 +65,7 @@ This plugin will fetch the specified instagram feed and the latest 12 images and
 ```
 
 
+
 ### 3. Enable Build plugins on your site
 
 Visit the Build Plugins page in the Netlify Admin to enable build plugins on your site.
