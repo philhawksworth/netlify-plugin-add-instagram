@@ -9,7 +9,8 @@ module.exports = {
 
     const instagramGraphUrl = `https://www.instagram.com/${inputs.username}/?__a=1`;
 
-    // Where fetched data should reside in the buid
+
+    // Where fetched data should reside in the build
     const dataFile = inputs.dataFile;
 
     // reinstate from cache if it is present
@@ -21,6 +22,7 @@ module.exports = {
     }
     // Or if it's not cached, let's fetch it and cache it.
     else {
+
 
       const data = await fetch(instagramGraphUrl)
         .then(res => {
@@ -34,7 +36,7 @@ module.exports = {
 
       // If we didn't receive JSON, fail the plugin but not the build
       if(!data){
-        utils.build.failPlugin('The Instagram feed did not return JSON data.\nProceeding with the build without the data from the plugin.')
+        utils.build.failPlugin(`The Instagram feed did not return JSON data.\nProceeding with the build without the data from the plugin.`);
         return;
       }
 
@@ -52,9 +54,12 @@ module.exports = {
       }
       await fs.writeFileSync(dataFile, JSON.stringify(instagramData));
       await utils.cache.save(dataFile, { ttl: inputs.feedTTL });
-      console.log(chalk.yellow("Instagram data fetched and cached"), chalk.gray(`(TTL:${inputs.feedTTL} seconds)`));
+      console.log("Instagram data fetched from", chalk.yellow(instagramGraphUrl), "and cached", chalk.gray(`(TTL:${inputs.feedTTL} seconds)`));
     }
 
+
+    // Now we have a well-formated data object describing the instagram feed,
+    // let's fetch any uncached images we might need
     for (const image in instagramData) {
       let { localImageURL, sourceImageURL } = instagramData[image];
       // if the image exists in the cache, recover it.
