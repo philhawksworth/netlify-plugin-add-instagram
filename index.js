@@ -9,6 +9,7 @@ module.exports = {
 
     const instagramGraphUrl = `https://www.instagram.com/${inputs.username}/?__a=1`;
 
+    console.log('Instagram feed url:', chalk.yellow(instagramGraphUrl));
 
     // Where fetched data should reside in the build
     const dataFile = inputs.dataFile;
