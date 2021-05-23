@@ -25,19 +25,23 @@ module.exports = {
     else {
 
 
-      const data = await fetch(instagramGraphUrl)
+      const data = await fetch(instagramGraphUrl, {
+        headers: {
+          cookie: `sessionid=${inputs.sessionID}`
+        }
+      })
         .then(res => {
           // ensure that we are only acting on JSON responses
           if(res.headers.get('content-type').includes('application/json')){
             return res.json();
           } else {
-            return null;
+            return res.text();
           }
         });
 
       // If we didn't receive JSON, fail the plugin but not the build
-      if(!data){
-        utils.build.failPlugin(`The Instagram feed did not return JSON data.\nProceeding with the build without the data from the plugin.`);
+      if(!data?.graphql?.user?.edge_owner_to_timeline_media?.edges){
+        utils.build.failPlugin(`The Instagram feed did not return expected data.\nProceeding with the build without the data from the plugin.`);
         return;
       }
 
@@ -69,7 +73,11 @@ module.exports = {
         console.log('Restored from cache:', chalk.green(localImageURL));
       } else {
         // if the image is not cached, fetch and cache it.
-        await fetch(sourceImageURL)
+        await fetch(sourceImageURL, {
+          headers: {
+            cookie: `sessionid=${inputs.sessionID}`
+          }
+        })
           .then(async res => {
               const dest = fs.createWriteStream(localImageURL);
               res.body.pipe(dest);
@@ -81,5 +89,3 @@ module.exports = {
 
   }
 }
-
-
